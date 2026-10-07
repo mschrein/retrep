@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE surveyProject SYSTEM "doctype.survey.dtd">
+<surveyProject version="2.4" timestamp="2026-10-06 11:56:44" program="oFb" progversion="3.8.08 1416">
+<title>kaffklatsch-Pilot</title>
+<description />
+<attributes.specific program="ofb">
+<attr id="language">ger</attr>
+</attributes.specific>
+<section>
+<title>Hypothesen</title>
+<attributes.specific program="ofb">
+<attr id="id">HY</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+<question>
+<description>Instruktion</description>
+<class>TextContent</class>
+<title />
+<explanation />
+<inputPosition>right</inputPosition>
+<lead>
+<![CDATA[<p><b>Bitte lesen Sie sich die folgenden Informationen aufmerksam durch:</b></p>
+
+<p>Wir möchten gerne erfahren, welche Hypothesen oder Forschungsfragen Sie in Bezug auf Ihren Fachbereich interessant finden. Deshalb möchten wir Sie bitten, auf den folgenden Seiten eigene Ideen für Forschungsfragen bzw. Hypothesen in ihrem Fachbereich zu generieren.</p> 
+
+<p>Diese Forschungsfragen bzw. Hypothesen sollten mögichst <b>kurz, präzise und im Prinzip anhand einer einzigen Studie zu beantworten</b> sein. Eine gute Forschungsfrage bzw. Hypothese wäre also z.B.: "Verbessert Schokolade essen nach dem Lernen die anschließende Gedächtnisleistung?" (ein Beispiel für eine psychologische Forschungsfrage). <b>Keine</b> gute Forschungsfrage bzw. Hypothese wäre hingegen: "Wie lassen sich Lerninhalte besser erinnern?"</p> 
+
+<p>Wichtig ist, dass Ihnen keine wissenschaftlichen Studien bekannt sind, in denen diese Forschungsfrage bzw. Hypothese bereits untersucht worden ist. In anderen Worten: Sie sollten Forschungsfragen bzw. Hypothesen eingeben, die aus Ihrer Sicht für zukünftige Forschung von Interesse sein könnten.</p>]]>
+</lead>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="alignment">default</attr>
+<attr id="character">html</attr>
+</attributes.specific>
+</question>
+<question>
+<description>Hypothesen</description>
+<class>mentions</class>
+<title>Bitte nennen Sie bis zu 10 mögliche Forschungsfragen oder Hypothesen, zu denen Ihnen keine wissenschaftlichen Studien bekannt sind.</title>
+<explanation>Tragen Sie in jedes Eingabefeld eine Forschungsfrage oder Hypothese ein</explanation>
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="number">no</attr>
+<attr id="restrictions.answered">yes</attr>
+<attr id="restrictions.min">1</attr>
+<attr id="rows">10</attr>
+<attr id="offer">3</attr>
+</attributes.specific>
+</question>
+</section>
+<section>
+<title>Demographie</title>
+<attributes.specific program="ofb">
+<attr id="id">DE</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+<question>
+<description>Einführung</description>
+<class>TextContent</class>
+<title />
+<explanation />
+<inputPosition>right</inputPosition>
+<lead>Bitte machen Sie zuächst einige Angaben zu Ihrer Person.</lead>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="alignment">default</attr>
+<attr id="character">plain</attr>
+</attributes.specific>
+</question>
+<question>
+<description>Geschlecht</description>
+<class>select</class>
+<title>Was ist Ihr Geschlecht?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="number">no</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text>Weiblich</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>Männlich</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>Ich identifiziere mein Geschlecht als:</text>
+<textinput>yes</textinput>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+<attr id="width">100</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Alter</description>
+<class>text</class>
+<title>Wie alt sind Sie?</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+<attr id="number">no</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="width">100</attr>
+<attr id="restrictions.charset">number</attr>
+<attr id="restrictions.min">10</attr>
+<attr id="restrictions.max">99</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Studienfach</description>
+<class>text</class>
+<title>Was studieren Sie?</title>
+<explanation>Bitte geben Sie Ihr Studienfach an.</explanation>
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+<attr id="number">no</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="width">200</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Abschluss</description>
+<class>select</class>
+<title>Studieren Sie im Bachelor oder Master? Falls Sie einen anderen Abschluss anstreben (z.B. Staatsexamen), wählen Sie bitte "Anderes" aus und spezifizieren Sie Ihren Abschluss.</title>
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">5</attr>
+<attr id="pos">5</attr>
+<attr id="number">no</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text>Bachelor</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>Master</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+<item>
+<text>Anderes</text>
+<textinput>yes</textinput>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+<attr id="width">150</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Fachsemester</description>
+<class>text</class>
+<title>In welchem Fachsemester studieren Sie?</title>
+<explanation>Für Masterstudierende: Bitte geben Sie das Fachsemester im Master an (wenn Sie das Masterstudium gerade begonne haben, geben Sie z.B. 1 an).</explanation>
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">6</attr>
+<attr id="pos">6</attr>
+<attr id="number">no</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<item>
+<text />
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="width">100</attr>
+<attr id="restrictions.charset">number</attr>
+<attr id="restrictions.min">1</attr>
+<attr id="restrictions.max">20</attr>
+</attributes.specific>
+</item>
+</question>
+</section>
+<section>
+<title>Informed Consent</title>
+<attributes.specific program="ofb">
+<attr id="id">IC</attr>
+<attr id="pos">3</attr>
+</attributes.specific>
+<question>
+<description>Informed Consent</description>
+<class>TextContent</class>
+<title />
+<explanation />
+<inputPosition>right</inputPosition>
+<lead>
+<![CDATA[<b>Studienleitung</b>
+<p>Dr. Maren Mayer<br>
+Leibniz-Institut für Wissensmedien<br>
+Schleichstraße 6, D-72076 Tübingen<br>
+Telefon: +49 7071 979-120<br>
+E-Mail: maren.mayer@iwm-tuebingen.de</p>
+
+<b><i>Studieninformation</i></b>
+<p>Ziel dieser Studie ist es, fiktive wissenschaftliche Forschungsfragen bzw. Hypothesen zu generieren, die als Material für zukünftige Studien verwendet werden können. Ihre Aufgabe wird es sein, bis zu 10 wissenschaftliche Forschungsfragen oder Hypothesen anzugeben, zu denen Ihnen keine wissenschaftlichen Studien bekannt sind. Dabei werden Ihre Eingaben und die Zeit, die Sie für einzelne Seiten der Studie benötigen, erfasst. Darüber hinaus erheben wir demographische Daten wie Geschlecht, Alter, Studienfach, angestrebter Abschluss und Fachsemester. Insgesamt dauert die Studie ca. 10 Minuten.</p>
+
+<b><i>Freiwilligkeit und Anonymität</i></b>
+<p>Die Teilnahme an der Studie ist freiwillig und Sie können die Untersuchung jederzeit abbrechen, ohne dass Ihnen daraus Nachteile entstehen. Auch wenn Sie die Studie vorzeitig abbrechen, haben Sie Anspruch auf eine entsprechende Vergütung für den bis dahin erbrachten Zeitaufwand. Personenbezogene Daten (Alter, Geschlecht, etc.) werden nur so weit wie nötig aufgezeichnet. Ihre Forschungsdaten werden mit einem Zahlencode gespeichert, der unabhängig von Ihrem Namen generiert wurde. Das heißt, es ist niemandem möglich, Ihre Daten mit Ihrem Namen in Verbindung zu bringen. Die aufgezeichneten Forschungsdaten werden also anonymisiert gespeichert, ausgewertet und veröffentlicht (z.B. in wissenschaftlichen Zeitschriften oder Internetdatenbanken). Sie können die vollständige Löschung dieser Forschungsdaten somit nur während oder direkt nach der Erhebung und vor Verlassen des Labors verlangen, da diese bereits anonymisiert erhoben werden. Danach können Ihre Forschungsdaten nicht mehr identifiziert und gelöscht werden, da Ihre Daten dann anonymisiert sind. Wenn Sie jetzt oder nach dem Versuch Fragen haben, wenden Sie sich bitte an die Versuchsleitung oder den oben genannten Verantwortlichen.</p>
+
+<b><i>Vergütung</i></b>
+<p>Für die Teilnahme an der Untersuchung können Sie an der Verlosung von 5x10€ Amazon-Gutscheinen teilnehmen. Hierfür können Sie am Ende der Studie Ihre E-Mail-Adresse angeben. Ihre E-Mail-Adresse wird getrennt von Ihren Daten aus der Studie gespeichert, sodass die Anonymität Ihrer Daten sichergestellt ist. Die E-Mail-Adresse wird auf dem Server der SoSci Survey GmbH gespeichert und nach Abschluss der Verlosung gelöscht.</p>
+
+<b>Erklärung der Einwilligung</b>
+<p>Ich wurde schriftlich über die Studie und deren Ablauf informiert. Ich willige ein, an der beschriebenen Studie teilzunehmen. Falls ich Fragen zur Studie hatte, wurden diese von der Studienleitung zufriedenstellend beantwortet.<br>
+Ich stimme der beschriebenen Erfassung und Verarbeitung meiner Daten zu. Die Daten werden anonym erfasst und analysiert. Ich stimme zu, dass meine vollständig anonymsierten Daten für Forschungszwecke genutzt werden können. Zu diesem Zweck werden Die Daten mindestens 10 Jahre nach der Datenanalyse oder mindestens 10 Jahre nach Publikation der Studie aufbewahrt. Bei Teilnahme an der Gutschein-Verlosung stimme ich zudem zu, dass meine E-Mail-Adresse zum Zweck der Verlosung verwendet und bis zum Abschluss der Verlosung gespeichert wird.<br>
+Die Ergebnisse und Daten dieser Studie können in wissenschaftlichen Publikationen veröffentlicht werden. Dies geschieht in anonymisierter Form, d.h. ohne dass die Daten einer spezifischen Person zugeordnet werden können. Die vollständig anonymisierten Daten aus dieser Studie können öffentlich zugänglich im Internet zur Verfügung gestellt werden. Diese Studie folgt damit den Empfehlungen der Deutschen Forschungsgemeinschaft (DFG) und der Deutschen Gesellschaft für Psychologie (DGPs) zur Sicherung der Forschungsqualität.
+</p>
+<p>Bitte bestätigen Sie, dass Sie an der Studie teilnehmen möchten:<br>
+Ich habe verstanden, dass persönliche Daten für wissenschaftliche Zwecke gesammelt werden. Die Verteilung, Speicherung und Analyse der für diese Studie relevanten Daten erfolgt entsprechend rechtlicher Anforderungen und benötigt meine freiwillige Einwilligung vor meiner Teilnahme an der Studie.<br>
+Ich erkläre mich damit einverstanden, dass die im Rahmen dieser Studie gesammelten Daten aufgezeichnet und anonymisiert in Fragebögen oder elektronischen Speichermedien gespeichert und möglicherweise publiziert werden (z.B. in Form eines wissenschaftlichen Artikels). Da die Daten anonymsiert gespeichert werden, können diese nicht zu mir zurückverfolgt werden. Daher kann ich nicht um das Zurückziehen meiner gesammelten Daten bitten, nachdem ich die Studie abgeschlossen habe.<br>
+Ich hatte genug Zeit, um eine Entscheidung zu treffen und bin bereit, an der Studie teilzunehmen.
+</p>]]>
+</lead>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="alignment">default</attr>
+<attr id="character">html</attr>
+</attributes.specific>
+</question>
+<question>
+<description>Consent Frage</description>
+<class>select</class>
+<title />
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+<attr id="number">no</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<filter>
+<condition type="any">
+<value id="vOpt">2</value>
+</condition>
+<effect type="so">
+<value id="qIS">IC05</value>
+</effect>
+</filter>
+<item>
+<text>Ich erkläre mich damit einverstanden, an der Studie teilzunehmen. Ich bin über Ziele und Ablauf der Studie informiert worden und habe diese verstanden. Meine Teilnahme erfolgt freiwillig. Ich habe das Recht, die Teilnahme jederzeit und ohne Angabe von Gründen aufzukündigen. Ich bin außerdem mit einer Verwendung der Forschungsdaten in anonymisierter Form einverstanden.</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>Ich bin mit den Studienbedingungen nicht einverstanden und möchte nicht an der Studie teilnehmen.</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>DSGVO</description>
+<class>TextContent</class>
+<title />
+<explanation />
+<inputPosition>right</inputPosition>
+<lead>
+<![CDATA[<b>Verantwortliche Dienststelle/Datenschutzbeauftragte</b>
+<p>Datenschutzbeauftragter des Landes Baden-Württemberg Prof. Dr. Tobias Keber, poststelle@lfdi.bwl.de</p>
+
+<b>Zusätzlich werden Sie hiermit über die in der DSGVO festgelegten Rechte informiert:</b>
+<b>Rechtsgrundlage</b>
+<p>Rechtsgrundlage für die Verarbeitung von personenbezogenen Daten in klinischen Studien bzw. Studien an Menschen ist Ihre Einwilligung in schriftlicher Form gemäß DSGVO, die Deklaration von Helsinki (Erklärung des Weltärztebundes zu den ethischen Grundsätzen für die medizinische Forschung am Menschen) und die Leitlinie für Gute Klinische Praxis. Bei klinischen Prüfungen mit Arzneimitteln ist zusätzlich das Arzneimittelgesetz und bei klinischen Prüfungen mit Medizinprodukten das Medizinproduktegesetz anzuwenden. Zeitgleich mit der DSGVO treten in Deutschland das überarbeitete Bundesdatenschutzgesetz (BDSG-neu) und landesdatenschutzrechtliche Regelungen in Kraft.</p>
+
+<b>Bezüglich Ihrer Daten haben Sie folgende Rechte:</b>
+<p><b>Einwilligung zur Verarbeitung personenbezogener Daten und Recht auf Widerruf</b> – Die Verarbeitung Ihrer personenbezogenen Daten ist nur mit Ihrer Einwilligung rechtmäßig. Sie haben das Recht, Ihre Einwilligung zur Verarbeitung personenbezogener Daten jederzeit ohne Angabe von Gründen zu widerrufen. Es dürfen jedoch die bis zu diesem Zeitpunkt erhobenen Daten durch die in der Probandeninformation bzw. Einwilligungserklärung zu der jeweiligen Studie genannten Stellen verarbeitet werden. Bei Widerruf der Einwilligung bleibt die Rechtmäßigkeit der auf ihrer Grundlage bis zum Widerruf erfolgten Verarbeitung unberührt.<br>
+<b>Recht auf Auskunft, Berichtigung, Löschung usw.</b> – Ihnen stehen sog. Betroffenenrechte zu, d.h. Rechte, die Sie als im Einzelfall betroffene Person ausüben können. Diese Rechte können Sie gegenüber der Universität Würzburg geltend machen. Sie ergeben sich aus der DSGVO. <br>
+<b>Recht auf Auskunft, Art. 15 DSGVO</b> – Sie haben das Recht auf Auskunft über die Sie betreffenden personenbezogenen Daten, die im Rahmen der Studie erhoben, verarbeitet oder ggf. an Dritte übermittelt wurden.<br>
+<b>Recht auf Berichtigung, Art. 16 DSGVO</b> – Wenn Sie feststellen, dass unrichtige Daten zu Ihrer Person verarbeitet werden, können Sie eine Berichtigung verlangen. Unvollständige Daten müssen unter Berücksichtigung des Zwecks der Verarbeitung vervollständigt werden.<br> 
+<b>Recht auf Löschung, Art 17 DSGVO</b> – Sie haben das Recht auf Löschung Ihrer personenbezogenen Daten, wenn bestimmte Löschgründe vorliegen. Dies ist insbesondere der Fall, wenn diese für den Zweck, zu dem sie ursprünglich erhoben oder verarbeitet wurden, nicht mehr erforderlich sind oder wenn Sie Ihre Einwilligung widerrufen.<br>
+<b>Recht auf Einschränkung der Verarbeitung, Art. 18 DSGVO</b> – Sie haben das Recht auf Einschränkung der Verarbeitung Ihrer Daten. Dies bedeutet, dass Ihre Daten zwar nicht gelöscht, aber gekennzeichnet werden, um ihre weitere Verarbeitung oder Nutzung einzuschränken.<br>
+<b>Recht auf Datenübertragbarkeit, Art. 20 DSGVO</b> – Sie haben das Recht, die Sie betreffenden personenbezogenen Daten, die Sie uns zur Verfügung gestellt haben, in einem gängigen elektronischen Format zu verlangen.<br>
+<b>Recht auf Widerspruch gegen unzumutbare Datenverarbeitung, Art. 21 DSGVO</b> – Sie haben grundsätzlich ein allgemeines Widerspruchsrecht auch gegen rechtmäßige Datenverarbeitungen, die im öffentlichen Interesse liegen, in Ausübung öffentlicher Gewalt oder aufgrund des berechtigten Interesses einer Stelle erfolgen.</p> 
+
+<p><b>Möchten Sie eines dieser Rechte in Anspruch nehmen</b>, wenden Sie sich bitte an die unten genannte Studienleitung. Außerdem haben Sie das Recht, Beschwerde bei der/den Datenschutzaufsichts¬behörde/n einzulegen, wenn Sie der Ansicht sind, dass die Verarbeitung der Sie betreffenden personenbezogenen Daten gegen die DSGVO verstößt. Die Beschwerde bei der Aufsichtsbehörde kann formlos erfolgen. Für die Julius-Maximilians-Universität Würzburg ist dies der Bayerische Landesbeauftragte für den Datenschutz (BayLfD), Postfach 22 12 19, 80502 München, Telefon: 089/212672-0, Email: poststelle@datenschutzbayern.de</p>
+
+<p>Die Datenverarbeitung erfolgt auf der Rechtsgrundlage Art. 6 Abs. 1 DSGVO.<br>
+Die Datenverarbeitung ist zur Wahrung der berechtigten Interessen des Verantwortlichen oder eines Dritten erforderlich, sofern nicht die Interessen oder Grundrechte und Grundfreiheiten der betroffenen Person überwiegen (gem. Art. 6 Abs. 1 Buchst. f DSGVO). Ihre personenbezogenen Daten werden nicht an Dritte, Drittländer oder internationale Organisationen weitergegeben. Ihre weiteren Rechte gem. der Datenschutzgrundverordnung der EU können Sie hier einsehen: https://www.uni-wuerzburg.de/universitaet/rechtsgrundlagen/datenschutzbeauftragter/betroffenenrechte-gem-dsgvo/</p>
+
+<b>Studienleitung</b>
+<p>Dr. Maren Mayer, Schleichstraße 6, D-72076 Tübingen<br>
+Telefon: +49 7071 979-120, E-Mail: maren.mayer@iwm-tuebingen.de</p>
+]]>
+</lead>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">3</attr>
+<attr id="pos">3</attr>
+<attr id="alignment">default</attr>
+<attr id="character">html</attr>
+</attributes.specific>
+</question>
+<question>
+<description>DSGVO Frage</description>
+<class>select</class>
+<title />
+<explanation />
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">4</attr>
+<attr id="pos">4</attr>
+<attr id="number">no</attr>
+<attr id="restrictions.answered">yes</attr>
+</attributes.specific>
+<filter>
+<condition type="any">
+<value id="vOpt">2</value>
+</condition>
+<effect type="so">
+<value id="qIS">IC05</value>
+</effect>
+</filter>
+<item>
+<text>Ich bestätige, die Informationen gelesen und verstanden zu haben.</text>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+</attributes.specific>
+</item>
+<item>
+<text>Ich möchte die Studie an dieser Stelle abbrechen.</text>
+<attributes.specific program="ofb">
+<attr id="id">2</attr>
+<attr id="pos">2</attr>
+</attributes.specific>
+</item>
+</question>
+<question>
+<description>Screenout</description>
+<class>TextContent</class>
+<title />
+<explanation />
+<headerText>Vielen Dank</headerText>
+<inputPosition>right</inputPosition>
+<lead>
+<![CDATA[Sie möchten nicht an der Studie teilnehmen.
+
+Sie können das Browserfenster nun schließen.
+
+Bei Fragen oder Problemen können Sie sich an die Versuchsleitung wenden:
+
+Dr. Maren Mayer
+E-Mail: maren.mayer@iwm-tuebingen.de]]>
+</lead>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">5</attr>
+<attr id="pos">5</attr>
+<attr id="alignment">default</attr>
+<attr id="character">plain</attr>
+</attributes.specific>
+</question>
+</section>
+<section>
+<title>Email</title>
+<attributes.specific program="ofb">
+<attr id="id">EM</attr>
+<attr id="pos">4</attr>
+</attributes.specific>
+<question>
+<description>Email</description>
+<class>contact</class>
+<title>Falls Sie am Gewinnspiel für 5 x 10€-Gutscheine für ein Online-Warenhaus teilnehmen möchten, geben Sie bitte Ihre Email-Adresse an. Andernfalls klicken Sie auf Weiter.</title>
+<explanation>Ihre Email-Adresse wird getrennt von Ihren Daten aus der Studie gespeichert, sodass die Anonymität Ihrer Daten gewährleistet ist.</explanation>
+<inputPosition>right</inputPosition>
+<order>default</order>
+<attributes.specific program="ofb">
+<attr id="id">1</attr>
+<attr id="pos">1</attr>
+<attr id="number">no</attr>
+<attr id="texts">
+<li i="2">Ich will am Gewinnspiel teilnehmen. Ich willige ein, dass meine E-Mail-Adresse bis zur Ziehung der Gewinner gespeichert und anschließend gelöscht wird. Diese Einwilligung kann ich jederzeit widerrufen. Meine Angaben in dieser Befragung bleiben weiterhin anonym, da meine E-Mail-Adresse getrennt gespeichert wird. Meine E-Mail-Adresse wird nicht an Dritte weitergegeben und nicht zum Verschicken von Studienwerbung genutzt.</li>
+<li i="3">no</li>
+</attr>
+</attributes.specific>
+</question>
+</section>
+<layoutTexts>
+<layoutText id="default.imprint"><txt lng="ger"><![CDATA[<a href="maren.mayer@iwm-tuebingen.de">Dr. Maren Mayer</a>, 
+Leibniz-Institut für Wissensmedien – 2023]]></txt></layoutText>
+</layoutTexts>
+<questionnaire>
+<title>Fragebogen</title>
+<attributes.specific program="ofb">
+<attr id="id">base</attr>
+<attr id="content">
+<![CDATA[<?xml version="1.0"?>
+<questionnaire>
+
+<!-- Seite 1 -->
+<page ident="IC" intID="1">
+<question id="IC01" intID="2" />
+<question id="IC02" intID="3" />
+</page>
+
+
+<!-- Seite 2 -->
+<page ident="DS" intID="4">
+<question id="IC03" intID="5" />
+<question id="IC04" intID="6" />
+</page>
+
+
+<!-- Seite 3 -->
+<page ident="DE" intID="7">
+<info>Demographie</info>
+<question id="DE01" intID="8" />
+<question id="DE02" intID="9" />
+<question id="DE03" intID="10" />
+<question id="DE04" intID="11" />
+<question id="DE05" intID="12" />
+<question id="DE06" intID="13" />
+</page>
+
+
+<!-- Seite 4 -->
+<page ident="HY" intID="15">
+<info>Hypothesen</info>
+<question id="HY01" intID="16" />
+<question id="HY02" intID="17" />
+</page>
+
+
+<!-- Seite 5 -->
+<page intID="14">
+<question id="EM01" intID="18" />
+</page>
+
+
+</questionnaire>]]>
+</attr>
+<attr id="goodbye">
+<![CDATA[<h1>Vielen Dank für Ihre Teilnahme!</h1>
+
+<p>Wir möchten uns ganz herzlich für Ihre Mithilfe bedanken.</p>
+
+<p>Bei dieser Studie handelt es sich um eine Pilotstudie, mit der wir wissenschaftliche Forschungsfragen sammeln, die bisher noch nicht wissenschaftlich untersucht wurden. Diese Forschungsfragen sollen als Material in weiteren Studien verwendet werden.</p>
+
+<p>Bei Fragen oder Problemen können Sie sich an maren.mayer@iwm-tuebingen.de wenden.</p>
+ 
+<p>Ihre Antworten wurden gespeichert, Sie können das Browser-Fenster nun schließen.</p>
+
+<!-- Zusätzlicher Abstand (ggf. entfernen/anpassen) -->
+<div style="padding-bottom: 20px"></div>]]>
+</attr>
+<attr id="selection">1</attr>
+</attributes.specific>
+</questionnaire>
+<setting name="DataFilter" key="df" encoding="json">
+{"dfStatus":2,"maxpage.min":5,"progress":"finished"}</setting>
+</surveyProject>
