@@ -1,0 +1,459 @@
+---
+title: "Analysis Pilot 2"
+author: "Marcel Schreiner"
+date: "2025-07-25"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Packages
+
+```{r}
+library(tidyverse)
+library(magrittr)
+library(lme4)
+library(lmerTest)
+library(here)
+library(performance)
+```
+
+## Import and Rename Data, Initial Exclusions
+Why name this differently?
+```{r}
+# load final data file!
+raw_data <- read_csv(here("pilot2/data_pilot2_all.csv"))
+```
+
+Change values -9 to NA
+```{r}
+raw_data[raw_data == -9] <- NA
+```
+
+Rename variables
+```{r}
+raw_data %<>%
+  rename(age = DE02_01,
+         education = DE03,
+         field.of.study = DE04,
+         gender = DE05,
+         exclusion = DE09,
+         exclusion.reasons = DE09_02,
+         comments = DE10_01,
+         data.usage = DE11,
+         consent = IC02,
+         device = PI01_FmF,
+         screen.width= PI01_ScW,
+         screen.height = PI01_ScH,
+         prolificID = PI01_RV1,
+         sessionID = PI01_RV2,
+         studyID = PI01_RV3,
+         quality.indicators.new1 = QI02x01,
+         quality.indicators.new2 = QI02x02,
+         quality.indicators.new3 = QI02x03,
+         quality.indicators.new4 = QI02x04) %>%
+  
+  rename_with(.cols = starts_with("AC"), 
+              .fn = ~paste0("attention.check_", 1:6)) %>%
+  
+  rename_with(.cols = starts_with("IV01"), 
+              .fn = ~paste0("vignette_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV02"), 
+              .fn = ~paste0("title_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV03"), 
+              .fn = ~paste0("name_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV04"), 
+              .fn = ~paste0("institution_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV05"), 
+              .fn = ~paste0("confirmation_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV06"), 
+              .fn = ~paste0("confirmation.text_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV07"), 
+              .fn = ~paste0("quality_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV08"), 
+              .fn = ~paste0("quality.text_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV09"), 
+              .fn = ~paste0("prestige_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV10"), 
+              .fn = ~paste0("prestige.text_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV11"), 
+              .fn = ~paste0("opendata_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV12"), 
+              .fn = ~paste0("opendata.text_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV13"), 
+              .fn = ~paste0("citation_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("IV14"), 
+              .fn = ~paste0("citation.text_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("QI01"), 
+              .fn = ~paste0("quality.indicator_", 1:6)) %>%
+  
+  rename_with(.cols = starts_with("QR"), 
+              .fn = ~paste0("quality.rating_", 1:24)) %>%
+  
+  rename_with(.cols = starts_with("SO"), 
+              .fn = ~paste0("category_", 1:24))
+```
+
+## Data exclusions
+
+Mark participants which may have participated several times (except if first time was completed)
+```{r}
+
+exclusions <- raw_data %>%
+  #participants are allowed to read the instructions twice but not pages with manipulation
+  #thus, only inspect trials where participants got to page four or above
+  filter(MAXPAGE > 3) %>%
+  
+  # filter for duplicated prolific ids
+  group_by(prolificID) %>%
+  filter(n() > 1) %>%
+  
+  # get participants who completed on the second or later try
+  # incomplete tries are excluded anyway
+  arrange(STARTED) %>%
+  filter(STARTED != min(STARTED) & MAXPAGE >= 11) %>%
+  ungroup() %>%
+  
+  # get reason for exclusion and save IDs for exclusion
+  mutate(reason = "not completed on first try") %>%
+  select(CASE, reason)
+```
+
+Check if there are participants that retracted consent
+```{r}
+exclusions %<>% 
+  bind_rows(raw_data %>% 
+              filter(data.usage == 2) %>%
+              mutate(reason = "retracted consent") %>%
+              select(CASE, reason))
+```
+
+Exclude 3 participants: CASE 142 (technical problems) and CASES 485 and 510 (could not focus)
+```{r}
+exclusions %<>%
+  bind_rows(raw_data %>% 
+              filter(CASE %in% c(142, 485, 510)) %>% 
+              mutate(reason = "technical issues") %>% 
+              select(CASE, reason))
+```
+
+Compute window change indicator
+TODO: Do we plan exclusions based on this?
+
+```{r}
+raw_data <- raw_data %>%
+  rowwise() %>%
+  mutate(window.changes = sum(c_across(WC01_01 : WC03_24))) %>%
+  ungroup()
+```
+
+remove participants who meet exclusion criteria
+```{r}
+raw_data <- filter(raw_data, !CASE %in% exclusions$CASE)
+```
+
+
+Filter for participants to have reached last page and answered last question (final consent): complete cases
+```{r}
+raw_data <- filter(raw_data, MAXPAGE >= 11, !is.na(data.usage))
+```
+
+Remove prolific IDs
+```{r}
+raw_data$prolificID <- NA
+```
+
+## Data Wrangling
+Select and extract relevant variables, convert to long format
+```{r}
+data_long <- raw_data %>%
+  select(CASE, starts_with("attention.check"), vignette_1:citation.text_24, starts_with("quality.rating")) %>%
+  pivot_longer(cols = attention.check_1:quality.rating_24, 
+               names_to = c(".value", "item"),
+               names_sep = "_")
+```
+
+Evaluate attention checks - exclude if less than 4 passed
+```{r}
+exclusions %<>%
+  bind_rows(
+    data_long %>%
+      filter(item %in% c(1:6)) %>%
+      # recode attention checks
+      mutate(attention.check = ifelse(item %in% c(2,3,5,6) & attention.check == 2, 0, attention.check),
+             ac.passed = case_when(item %in% c(1,4) ~ attention.check == 1,
+                                   item %in% c(2,5) ~ attention.check == confirmation,
+                                   item %in% c(3,6) ~ attention.check == quality)) %>%
+      group_by(CASE) %>%
+      summarise(ac.passed = sum(ac.passed)) %>%
+      filter(ac.passed < 4) %>%
+      mutate(reason = "attention check failed") %>%
+      select(CASE, reason))
+```
+
+Exclude if attention check failed
+```{r}
+raw_data <- filter(raw_data, !CASE %in% exclusions$CASE)
+data_long <- filter(data_long, !CASE %in% exclusions$CASE)
+```
+
+Total number of excluded participants
+```{r}
+length(exclusions$CASE)
+```
+Number of remaining participants
+```{r}
+length(unique(raw_data$CASE))
+```
+
+Compute IV: Rename and code quality indicator variables
+```{r}
+data_long %<>%
+  mutate(title_r = ifelse(title == "Prof.", 1, 0),
+         institution_r = ifelse(institution %in% c("Harvard University", 
+                                                   "Stanford University",
+                                                   "Cornell University",
+                                                   "University of California, Berkeley",
+                                                   "University of Michigan",
+                                                   "University of Washington",
+                                                   "Columbia University",
+                                                   "University of Pennsylvania",
+                                                   "Yale University",
+                                                   "Princeton University"),
+                                1, 0),
+         vignette_r = ifelse(vignette %in% c("VI01", "VI02"), 1, 0)) #1 = long vignette, 0 = short vignette
+```
+
+Compute DV: Filter out missing quality ratings and recode
+```{r}
+data_long <- data_long %>%
+  filter(!is.na(quality.rating)) %>%
+  mutate(quality.rating = (quality.rating-1)/100)
+```
+
+
+## Demographics
+Age
+```{r}
+mean(raw_data$age)
+sd(raw_data$age)
+hist(raw_data$age)
+```
+Gender
+```{r}
+table(raw_data$gender)
+```
+Education
+```{r}
+table(raw_data$education)
+hist(raw_data$education)
+```
+Field of study
+```{r}
+table(raw_data$field.of.study)
+```
+
+## Analysis
+
+### Descriptives
+```{r}
+desc <- data_long %>%
+  select(CASE, vignette, quality.rating, title_r, institution_r, confirmation, quality, prestige, opendata, citation, vignette_r) %>%
+  pivot_longer(cols = title_r:vignette_r, names_to = "indicator", values_to = "indicator_value")
+
+desc_avg <- desc %>%
+  group_by(CASE, indicator, indicator_value) %>%
+  summarise(qr_ind = mean(quality.rating)) %>%
+  group_by(indicator, indicator_value) %>%
+  summarise(qr = mean(qr_ind), se = sd(qr_ind)) %>%
+  group_by(indicator) %>%
+  mutate(diff = qr - lag(qr)) %>%
+  mutate(diff = if_else(is.na(diff), lead(diff), diff)) %>%
+  ungroup() %>%
+  arrange(desc(diff)) %>%
+  mutate(indicator_value = if_else(indicator_value == 0, "low", "high")) %>%
+  mutate(indicator_value = factor(indicator_value, levels = c("low", "high")),
+         indicator = factor(indicator, 
+                            levels = unique(indicator), 
+                            labels = c("Quality comment", "Citation", "Open data", "Hypothesis confirmation", "Vignette length", "Institution", "Journal prestige", "Title")))
+```
+
+```{r}
+p_qr <- ggplot(data = desc_avg, mapping = aes(x = indicator, y = qr, fill = indicator_value, group = indicator_value)) +
+  geom_col(position = position_dodge(.9)) +
+  geom_errorbar(mapping = aes(ymin = qr-se, ymax = qr+se), width = .2, position = position_dodge(.9)) +
+  theme_classic() +
+  ylim(c(0,1)) +
+  labs(y = "Quality rating",
+       x = "Indicator",
+       fill = "Predictor manifestation") +
+  theme(legend.position = "bottom")
+p_qr
+# ggsave(p_qr, file = here("pilot2/plot_qr.svg"), height = 10, width = 15, limitsize = FALSE)
+```
+
+```{r}
+desc2 <- data_long %>%
+  select(CASE, vignette, quality.rating, title_r, institution_r, confirmation, quality, prestige, opendata, citation, vignette_r) %>%
+  pivot_longer(cols = title_r:citation, names_to = "indicator", values_to = "indicator_value")
+
+desc2_avg <- desc2 %>%
+  group_by(CASE, indicator, indicator_value, vignette_r) %>%
+  summarise(qr_ind = mean(quality.rating)) %>%
+  group_by(indicator, indicator_value, vignette_r) %>%
+  summarise(qr = mean(qr_ind), se = sd(qr_ind)) %>%
+  mutate(indicator_value = if_else(indicator_value == 0, "low", "high")) %>%
+  mutate(indicator_value = factor(indicator_value, levels = c("low", "high")),
+          indicator = factor(indicator, 
+                            levels = c("quality", "citation", "opendata", "confirmation", "institution_r", "prestige", "title_r"), 
+                            labels = c("Quality comment", "Citation", "Open data", "Hypothesis confirmation", "Institution", "Journal prestige", "Title")),
+         vignette_r = factor(vignette_r, labels = c("Short vignette", "Long vignette")))
+
+ggplot(data = desc2_avg, mapping = aes(x = indicator, y = qr, fill = indicator_value, group = indicator_value)) +
+  geom_col(position = position_dodge(.9)) +
+  geom_errorbar(mapping = aes(ymin = qr-se, ymax = qr+se), width = .2, position = position_dodge(.9)) +
+  theme_classic() +
+  facet_wrap(~vignette_r) +
+  ylim(c(0,1)) +
+  labs(y = "Quality rating",
+       x = "Indicator",
+       fill = "Predictor manifestation")
+```
+
+```{r}
+qr_avg <- data_long %>%
+  group_by(title_r, institution_r, confirmation, quality, prestige, opendata, citation) %>%
+  summarise(qr = mean(quality.rating))
+```
+
+### Mixed linear model analysis
+Effect coding
+```{r}
+data_long$title_r <- data_long$title_r - 0.5
+data_long$institution_r <- data_long$institution_r - 0.5
+data_long$confirmation <- data_long$confirmation - 0.5
+data_long$quality <- data_long$quality - 0.5
+data_long$prestige <- data_long$prestige - 0.5
+data_long$opendata <- data_long$opendata - 0.5
+data_long$citation <- data_long$citation - 0.5
+data_long$vignette_r <- data_long$vignette_r - 0.5
+```
+
+Fit model
+```{r}
+mod_inter <- lmer(quality.rating ~ title_r + institution_r + confirmation + quality + prestige + opendata + citation + vignette_r + title_r:vignette_r + institution_r:vignette_r + confirmation:vignette_r + quality:vignette_r + prestige:vignette_r + opendata:vignette_r + citation:vignette_r + (1|CASE) +(1|item), data = data_long)
+summary(mod_inter)
+```
+Waldian confidence intervals for fixed effects
+```{r}
+CIWald <- confint(mod_inter, method = "Wald", oldNames = FALSE)
+CIWald
+```
+Bootstrapped confidence intervals for random effects
+```{r}
+set.seed(42)
+CIboot <- confint(mod_inter, method = 'boot', nsim = 2000, oldNames=FALSE)
+CIboot
+```
+
+Conditional and marginal R^2
+```{r}
+r2(mod_inter)
+```
+
+ICC
+```{r}
+icc(mod_inter)
+```
+With random slopes
+Removed random slopes for vignette_r, confirmation, title_r, institution_r, and prestige to achieve convergence and prevent singular fit
+```{r}
+mod_rs <- lmer(quality.rating ~ title_r + institution_r + confirmation + quality + prestige + opendata + citation + vignette_r + title_r:vignette_r + institution_r:vignette_r + confirmation:vignette_r + quality:vignette_r + prestige:vignette_r + opendata:vignette_r + citation:vignette_r + (1+quality+opendata+citation|CASE) +(1|item), data = data_long)
+summary(mod_rs)
+```
+
+### Direct Rating of Quality Indicators
+```{r}
+qi <- raw_data %>%
+  select(CASE, quality.indicator_1:quality.indicator_6) %>%
+  pivot_longer(cols = quality.indicator_1:quality.indicator_6, 
+               names_to = c("name", "indicator"),
+               names_sep = "_") %>%
+  select(-name) %>%
+  mutate(indicator_txt = case_when(
+    indicator == 1 ~ "title",
+    indicator == 2 ~ "institution",
+    indicator == 3 ~ "quality",
+    indicator == 4 ~ "prestige",
+    indicator == 5 ~ "opendata",
+    indicator == 6 ~ "citation")) %>%
+  mutate(value = value-1) %>%
+  mutate(indicator_txt = factor(indicator_txt, levels = c("quality", "citation", "opendata", "prestige", "institution", "title"), labels = c("Quality comment", "Citation", "Open data", "Journal prestige", "Institution", "Title")))
+
+qi_avg <- qi %>%
+  group_by(CASE, indicator_txt) %>%
+  summarise(mean_ind = mean(value)) %>%
+  group_by(indicator_txt) %>%
+  summarise(mean = mean(mean_ind), se = sd(mean_ind)) %>%
+  arrange(desc(mean))
+```
+
+```{r}
+p_qi <- ggplot(data = qi_avg, mapping = aes(x = indicator_txt, y = mean)) +
+  geom_col(position = position_dodge(.9), fill = "grey60") +
+  geom_errorbar(mapping = aes(ymin = mean-se, ymax = mean+se), width = .2, position = position_dodge(.9)) +
+  theme_classic() +
+  ylim(c(0,6)) +
+  labs(x = "Quality indicator",
+       y = "Importance rating") +
+  geom_vline(xintercept = 3.5, linetype = "dashed")
+p_qi
+# ggsave(p_qi, file = here("pilot2/plot_qi.svg"), height = 10, width = 15, limitsize = FALSE)
+```
+
+Analyze whether importance ratings are higher for selected quality indicators than for non-selected quality indicators
+```{r}
+# contrast coding
+qi <- qi %>%
+  mutate(importance_contr = if_else(indicator_txt %in% c("Quality comment", "Open data", "citation"), 0.5, -0.5))
+
+# mixed linear model
+mod_importance <- lmer(value ~ importance_contr + (1|CASE), data = qi)
+summary(mod_importance)
+```
+```{r}
+confint(mod_importance, method = "Wald", oldNames = FALSE)
+```
+
+Bootstrapped confidence intervals for random effects
+```{r}
+set.seed(42)
+CIboot <- confint(mod_importance, method = 'boot', nsim = 2000, oldNames=FALSE)
+CIboot
+```
+
+Conditional and marginal R^2
+```{r}
+r2(mod_importance)
+```
+
+ICC
+```{r}
+icc(mod_importance)
+```
